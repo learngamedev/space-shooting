@@ -33,7 +33,8 @@ function love.load()
     }
 
     gStateMachine = StateMachine{
-        ["menu"] = function() return MenuState() end
+        ["menu"] = function() return MenuState() end,
+        ["play"] = function() return PlayState() end,
     }
     gStateMachine:change("menu")
 end
@@ -46,9 +47,9 @@ end
 function love.update(dt)
     require("lib/lovebird").update()
 
-    if (dt >= 1) then
+    if (dt < 1) then
+        gStateMachine:update(dt)
+
         love.keyboard.keysPressed = {}
     end
-
-    gStateMachine:update(dt)
 end
