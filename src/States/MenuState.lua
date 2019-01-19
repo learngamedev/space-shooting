@@ -33,3 +33,8 @@ function MenuState:update(dt)
     if (self._titleTimer > 0) then self._titleTimer = math.max(0, self._titleTimer - dt)
     else self._titleTimer = self._titleMaxTimer end
 end
+
+function MenuState:exit()
+    gSounds.theme:pause()
+    gSounds.theme = nil
+end
