@@ -30,20 +30,25 @@ function love.load()
         ["shoot"] = love.audio.newSource("assets/sounds/shoot.wav", "static"),
         ["power-up"] = love.audio.newSource("assets/sounds/power-up.wav", "static")
     }
+
+    gStateMachine = StateMachine{
+        ["menu"] = function() return MenuState() end
+    }
+    gStateMachine:change("menu")
 end
 
 function love.draw()
     displaySystemUsage()
+
+    gStateMachine:render()
 end
 
 function love.update(dt)
     require("lib/lovebird").update()
 
-    if (love.mouse.isDown(1)) then
-        gSounds.shoot:play()
-    end
-
     if (dt >= 1) then
         love.keyboard.keysPressed = {}
     end
+
+    gStateMachine:update(dt)
 end
