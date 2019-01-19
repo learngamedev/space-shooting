@@ -9,5 +9,5 @@ function Ship:init(x, y, shipID, health)
 end
 
 function Ship:render()
-    love.graphics.draw(gTextures.ships, gFrames.ships[self._shipID], self._x, self._y)
+    love.graphics.draw(gTextures.ships, gFrameQuads.ships[self._shipID], self._x, self._y)
 end

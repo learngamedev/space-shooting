@@ -20,10 +20,17 @@ function love.load()
     }
 
     gFrames = {
-        ["ships"] = generateQuads(gTextures.ships, "assets/graphics/ships.json"),
-        ["bullets"] = generateQuads(gTextures.bullets, "assets/graphics/bullets.json"),
-        ["huds"] = generateQuads(gTextures.huds, "assets/graphics/huds.json"),
-        ["items"] = generateQuads(gTextures.items, "assets/graphics/items.json")
+        ["ships"] = getFramesFromJson("assets/graphics/ships.json"),
+        ["bullets"] = getFramesFromJson("assets/graphics/bullets.json"),
+        ["huds"] = getFramesFromJson("assets/graphics/huds.json"),
+        ["items"] = getFramesFromJson("assets/graphics/items.json")
+    }
+
+    gFrameQuads = {
+        ["ships"] = generateQuads(gTextures.ships, gFrames.ships),
+        ["bullets"] = generateQuads(gTextures.bullets, gFrames.bullets),
+        ["huds"] = generateQuads(gTextures.huds, gFrames.huds),
+        ["items"] = generateQuads(gTextures.items, gFrames.items)
     }
 
     gSounds = {

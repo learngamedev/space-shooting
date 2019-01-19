@@ -15,13 +15,15 @@ function displaySystemUsage()
     love.graphics.print("RAM: " .. math.floor(collectgarbage("count")) .. "KB", 0, 15)
 end
 
--- Generate a table of quads using json file of a texture
----@param jsonFilePath string
-function generateQuads(texture, jsonFilePath)
+function getFramesFromJson(jsonFilePath) 
     local jsonFile = love.filesystem.newFile(jsonFilePath)
     local jsonContent = jsonFile:read(jsonFile:getSize())
-    local frames = Json.decode(jsonContent)
+    return Json.decode(jsonContent)
+end
 
+-- Generate a table of quads using json file of a texture
+---@param jsonFilePath string
+function generateQuads(texture, frames)
     local quads = {}
     local key
     for i = 1, #frames do
