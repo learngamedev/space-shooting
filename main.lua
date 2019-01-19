@@ -15,7 +15,8 @@ function love.load()
         ["ships"] = love.graphics.newImage("assets/graphics/ships.png"),
         ["bullets"] = love.graphics.newImage("assets/graphics/bullets.png"),
         ["huds"] = love.graphics.newImage("assets/graphics/huds.png"),
-        ["items"] = love.graphics.newImage("assets/graphics/items.png")
+        ["items"] = love.graphics.newImage("assets/graphics/items.png"),
+        ["logo"] = love.graphics.newImage("assets/graphics/backgrounds/logo.png")
     }
 
     gFrames = {
