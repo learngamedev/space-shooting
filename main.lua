@@ -39,9 +39,8 @@ function love.load()
 end
 
 function love.draw()
-    displaySystemUsage()
-
     gStateMachine:render()
+    displaySystemUsage()
 end
 
 function love.update(dt)
