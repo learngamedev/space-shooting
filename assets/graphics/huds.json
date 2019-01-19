@@ -1,0 +1,28 @@
+[{
+	"key": "energy-bar-fill",
+	"x":0,"y":27,"width":60,"height":12
+},
+{
+	"key": "energy-bar",
+	"x":0,"y":40,"width":78,"height":26
+},
+{
+	"key": "health-bar-fill",
+	"x":0,"y":67,"width":80,"height":18
+},
+{
+	"key": "health-bar",
+	"x":0,"y":86,"width":98,"height":32
+},
+{
+	"key": "life-empty",
+	"x":0,"y":0,"width":25,"height":25
+},
+{
+	"key": "life-full",
+	"x":26,"y":0,"width":25,"height":25
+},
+{
+	"key": "lives-icon",
+	"x":52,"y":0,"width":28,"height":26
+}]
