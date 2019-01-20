@@ -27,7 +27,9 @@ function MenuState:render()
 end
 
 function MenuState:update(dt)
-    if (love.keyboard.wasPressed("enter")) then
+    --TODO: commit this with PlayState
+    if (love.keyboard.wasPressed("return")) then
+        gStateMachine:change("play")
     end
 
     if (self._titleTimer > 0) then self._titleTimer = math.max(0, self._titleTimer - dt)
