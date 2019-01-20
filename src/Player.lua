@@ -8,6 +8,22 @@ function Player:init(x, y)
     self._bulletID = 1
     self._bullets = {} ---@type Bullet[]
     self._width, self._height = gFrames.ships[3].width, gFrames.ships[3].height
+
+    self._health = {
+        barX = WINDOW_WIDTH - gFrames.huds[4].width - 5,
+        barY = 5,
+        width = gFrames.huds[4].width,
+        height = gFrames.huds[4].height
+    }
+
+    self._live = {
+        remaining = 3,
+        firstX = self._health.barX + (self._health.width / 2 - 85 / 2),
+        firstY = self._health.barY + self._health.height,
+        width = gFrames.huds[6].width,
+        height = gFrames.huds[6].height
+    }
+    self:hit()
 end
 
 function Player:render()
@@ -16,6 +32,33 @@ function Player:render()
     for i = 1, #self._bullets do
         if (self._bullets[i]) then
             self._bullets[i]:render()
+        end
+    end
+
+    -- Render healh bar and lives
+    love.graphics.draw(gTextures.huds, gFrameQuads.huds["health-bar"], self._health.barX, self._health.barY)
+    love.graphics.draw(
+        gTextures.huds,
+        gFrameQuads.huds["health-bar-fill"],
+        self._health.barX + 9,
+        self._health.barY + 7
+    )
+
+    for i = 1, 3 do
+        if (i <= self._live.remaining) then
+            love.graphics.draw(
+                gTextures.huds,
+                gFrameQuads.huds["life-full"],
+                self._live.firstX + (i - 1) * 30,
+                self._live.firstY
+            )
+        else
+            love.graphics.draw(
+                gTextures.huds,
+                gFrameQuads.huds["life-empty"],
+                self._live.firstX + (i - 1) * 30,
+                self._live.firstY
+            )
         end
     end
 end
@@ -60,4 +103,16 @@ function Player:shoot()
         )
         gSounds.shoot:play()
     end
+end
+
+function Player:hit()
+    self._ship._health = self._ship._health - 20
+    gFrameQuads.huds["health-bar-fill"] =
+        love.graphics.newQuad(
+        gFrames.huds[3].x,
+        gFrames.huds[3].y,
+        gFrames.huds[3].width / 100 * self._ship._health,
+        gFrames.huds[3].height,
+        gTextures.huds:getDimensions()
+    )
 end
