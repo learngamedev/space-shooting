@@ -5,9 +5,12 @@ local PLAYER_SPEED = 180
 
 function Player:init(x, y)
     self._ship = Ship(x, y, 3, 100)
+    self._width, self._height = gFrames.ships[3].width, gFrames.ships[3].height
+
     self._bulletID = 1
     self._bullets = {} ---@type Bullet[]
-    self._width, self._height = gFrames.ships[3].width, gFrames.ships[3].height
+
+    self._cooldownTimer = 0
 
     self._health = {
         barX = WINDOW_WIDTH - gFrames.huds[4].width - 5,
@@ -23,7 +26,6 @@ function Player:init(x, y)
         width = gFrames.huds[6].width,
         height = gFrames.huds[6].height
     }
-    self:hit()
 end
 
 function Player:render()
@@ -65,7 +67,7 @@ end
 
 function Player:update(dt)
     self:move(dt)
-    self:shoot()
+    self:shoot(dt)
 
     for i = 1, #self._bullets do
         if (self._bullets[i]) then
@@ -74,6 +76,13 @@ function Player:update(dt)
                 table.remove(self._bullets, i)
             end
         end
+    end
+
+    if (love.keyboard.wasPressed("f")) then
+        if (self._bulletID < #BULLETS) then
+            self._bulletID = self._bulletID + 1
+        else self._bulletID = 1 end
+        print(self._bulletID)
     end
 end
 
@@ -91,18 +100,21 @@ function Player:move(dt)
     end
 end
 
-function Player:shoot()
-    if (love.keyboard.wasPressed("space")) then
-        table.insert(
-            self._bullets,
-            Bullet(
-                self._ship._x + self._width / 2 - gFrames.bullets[self._bulletID].width / 2,
-                self._ship._y - 10,
-                self._bulletID
+function Player:shoot(dt)
+    if (self._cooldownTimer == 0) then
+        if (love.keyboard.wasPressed("space")) then
+            table.insert(
+                self._bullets,
+                Bullet(
+                    self._ship._x + self._width / 2 - gFrames.bullets[self._bulletID].width / 2,
+                    self._ship._y - 10,
+                    self._bulletID
+                )
             )
-        )
-        gSounds.shoot:play()
-    end
+            gSounds.shoot:play()
+            self._cooldownTimer = BULLETS[self._bulletID].cooldown
+        end
+    else self._cooldownTimer = math.max(0, self._cooldownTimer - 30 * dt) end
 end
 
 function Player:hit()

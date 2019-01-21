@@ -1,6 +1,29 @@
 ---@class Bullet
 Bullet = Class{}
 
+BULLETS = {
+    [1] = {
+        cooldown = 20,
+        damage = 80,
+        speed = 150
+    },
+    [2] = {
+        cooldown = 10,
+        damage = 50,
+        speed = 130
+    },
+    [3] = {
+        cooldown = 2,
+        damage = 15,
+        speed = 250
+    },
+    [4] = {
+        cooldown = 5,
+        damage = 15,
+        speed = 200
+    }
+}
+
 function Bullet:init(x, y, bulletID)
     self._x, self._y = x, y
     self._bulletID = bulletID
@@ -11,5 +34,5 @@ function Bullet:render()
 end
 
 function Bullet:update(dt)
-    self._y = self._y - 200 * dt
+    self._y = self._y - BULLETS[self._bulletID].speed * dt
 end
