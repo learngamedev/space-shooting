@@ -82,7 +82,6 @@ function Player:update(dt)
         if (self._bulletID < #BULLETS) then
             self._bulletID = self._bulletID + 1
         else self._bulletID = 1 end
-        print(self._bulletID)
     end
 end
 
@@ -117,8 +116,8 @@ function Player:shoot(dt)
     else self._cooldownTimer = math.max(0, self._cooldownTimer - 30 * dt) end
 end
 
-function Player:hit()
-    self._ship._health = self._ship._health - 20
+function Player:changeHealth(number)
+    self._ship._health = math.min(100, self._ship._health + number)
     gFrameQuads.huds["health-bar-fill"] =
         love.graphics.newQuad(
         gFrames.huds[3].x,
