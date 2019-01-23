@@ -77,12 +77,6 @@ function Player:update(dt)
             end
         end
     end
-
-    if (love.keyboard.wasPressed("f")) then
-        if (self._bulletID < #BULLETS) then
-            self._bulletID = self._bulletID + 1
-        else self._bulletID = 1 end
-    end
 end
 
 function Player:move(dt)
@@ -126,4 +120,24 @@ function Player:changeHealth(number)
         gFrames.huds[3].height,
         gTextures.huds:getDimensions()
     )
+end
+
+---@param crate Crate
+function Player:getPowerup(crate)
+    if (crate._itemID == 5) then
+        if (self._bulletID == 7) then
+            self._bulletID = 1
+        else
+            if (self._bulletID == 4) then
+                self._bulletID = 7
+            else
+                if (self._bulletID ~= 1) then
+                    self._bulletID = 4
+                end
+            end
+        end
+    end
+    if (crate._itemID == 3) then
+        self:changeHealth(20)
+    end
 end
