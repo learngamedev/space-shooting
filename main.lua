@@ -44,6 +44,8 @@ function love.load()
         ["play"] = function() return PlayState() end,
     }
     gStateMachine:change("menu")
+
+    gGamePaused = false
 end
 
 function love.draw()
@@ -54,9 +56,13 @@ end
 function love.update(dt)
     require("lib/lovebird").update()
 
-    if (dt < 1) then
-        gStateMachine:update(dt)
-
-        love.keyboard.keysPressed = {}
+    if (dt < 1) and not gGamePaused then
+        gStateMachine:update(dt)  
     end
+
+    if (love.keyboard.wasPressed("p")) then
+        gGamePaused = not gGamePaused
+    end
+
+    love.keyboard.keysPressed = {}
 end
