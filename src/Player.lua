@@ -91,6 +91,8 @@ function Player:move(dt)
     elseif (love.keyboard.isDown("down")) then
         self._ship._y = math.min(WINDOW_HEIGHT - self._height, self._ship._y + PLAYER_SPEED * dt)
     end
+
+    self._ship._x, self._ship._y = math.floor(self._ship._x), math.floor(self._ship._y)
 end
 
 function Player:shoot(dt)
