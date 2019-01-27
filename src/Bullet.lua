@@ -39,15 +39,17 @@ BULLETS = {
     }
 }
 
-function Bullet:init(x, y, bulletID)
+function Bullet:init(x, y, bulletID, rotation)
     self._x, self._y = x, y
     self._bulletID = bulletID
+    self._dy = -1
+    self._rotation = rotation or 0
 end
 
 function Bullet:render()
-    love.graphics.draw(gTextures.bullets, gFrameQuads.bullets[self._bulletID], self._x, self._y)
+    love.graphics.draw(gTextures.bullets, gFrameQuads.bullets[self._bulletID], self._x, self._y, self._rotation)
 end
 
 function Bullet:update(dt)
-    self._y = self._y - BULLETS[self._bulletID].speed * dt
+    self._y = self._y + self._dy * BULLETS[self._bulletID].speed * dt
 end
