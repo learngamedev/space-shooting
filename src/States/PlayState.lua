@@ -7,7 +7,7 @@ function PlayState:init()
     self._backgroundScrollSpeed = 200
     self._crates = {} ---@type Crate[]
 
-    self._enemies = {} ---@type Enemy[]
+    self._enemies = {Enemy(100, 100, 8, 3, 20)} ---@type Enemy[]
 end
 
 function PlayState:render()
@@ -76,17 +76,34 @@ function PlayState:update(dt)
             end
 
             for k = 1, #self._enemies[i]._bullets do
-                if (self._enemies[i]._bullets[k]) then
-                    self._enemies[i]._bullets[k]:update(dt)
-        
-                    if (self._enemies[i]._bullets[k]._y > WINDOW_HEIGHT) then
-                        table.remove(self._enemies[i]._bullets, i)
+                local bullet = self._enemies[i]._bullets[k]
+                if (bullet) then
+                    bullet:update(dt)
+
+                    if
+                        (checkCollision(
+                            bullet._x - gFrames.bullets[bullet._bulletID].width,
+                            bullet._y - gFrames.bullets[bullet._bulletID].height,
+                            gFrames.bullets[bullet._bulletID].width,
+                            gFrames.bullets[bullet._bulletID].height,
+                            self._player._ship._x,
+                            self._player._ship._y,
+                            self._player._width,
+                            self._player._height
+                        ))
+                    then
+                        self._player:changeHealth(-BULLETS[bullet._bulletID].damage)
+                        table.remove(self._enemies[i]._bullets, k)
+                    end
+
+                    if (bullet._y > WINDOW_HEIGHT) then
+                        table.remove(self._enemies[i]._bullets, k)
                     end
                 end
             end
 
             self._enemies[i]:update(dt)
-    
+
             for j = 1, #self._player._bullets do
                 if (self._player._bullets[j]) then
                     if (self._enemies[i]:hit(self._player._bullets[j])) then
