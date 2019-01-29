@@ -1,12 +1,15 @@
 ---@class Enemy
 Enemy = Class {}
 
-function Enemy:init(x, y, shipID, bulletID, hp)
+function Enemy:init(x, y, shipID, bulletID, hp, speed, chasePlayer, randomMovement)
     self._ship = Ship(x, y, shipID, hp)
 
     self._dx, self._dy = 0, 0
-    self._speed = 120
-    self._chasingPlayer = false
+    self._speed = speed
+
+    self._chasingPlayer = chasePlayer or false
+    self._randomMovement = randomMovement or false
+    self._randomTimer = 50
 
     self._bulletID = bulletID
     self._bullets = {} ---@type Bullet[]
@@ -24,8 +27,20 @@ function Enemy:render()
 end
 
 function Enemy:update(dt)
+    if (self._randomMovement) then
+        if (self._randomTimer == 0) then
+            self:setVelocity(math.random(-1, 1), math.random(-1, 1))
+            self._randomTimer = math.random(20, 50)
+        else self._randomTimer = math.max(0, self._randomTimer - 20 * dt) end
+    end
+
     self._ship._x = math.floor(self._ship._x + self._speed * self._dx * dt)
     self._ship._y = math.floor(self._ship._y + self._speed * self._dy * dt)
+
+    self._ship._x = math.max(0, self._ship._x)
+    self._ship._x = math.min(self._ship._x, WINDOW_WIDTH - gFrames.ships[self._ship._shipID].width)
+    self._ship._y = math.max(0, self._ship._y)
+    self._ship._y = math.min(self._ship._y, WINDOW_HEIGHT - gFrames.ships[self._ship._shipID].height)
 
     self:shoot(dt)
 end
