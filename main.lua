@@ -1,6 +1,8 @@
 require("src/dependencies")
 
 function love.load()
+    love.mouse.setVisible(false)
+
     gFont = getImageFont("assets/font/font.png")
     love.graphics.setFont(gFont)
 

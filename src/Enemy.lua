@@ -60,7 +60,9 @@ function Enemy:update(dt)
     self._ship._y = math.max(0, self._ship._y)
     self._ship._y = math.min(self._ship._y, WINDOW_HEIGHT - gFrames.ships[self._ship._shipID].height)
 
-    self:shoot(dt)
+    if (self._bulletID) then
+        self:shoot(dt) 
+    end
 end
 
 function Enemy:setVelocity(dx, dy)

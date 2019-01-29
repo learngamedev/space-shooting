@@ -7,7 +7,7 @@ function Player:init(x, y)
     self._ship = Ship(x, y, 3, 100)
     self._width, self._height = gFrames.ships[3].width, gFrames.ships[3].height
 
-    self._bulletID = 1
+    self._bulletID = 4
     self._bullets = {} ---@type Bullet[]
 
     self._cooldownTimer = 0
@@ -76,6 +76,10 @@ function Player:update(dt)
                 table.remove(self._bullets, i)
             end
         end
+    end
+
+    if (love.keyboard.wasPressed("f")) then
+        self._bulletID = self._bulletID < 7 and self._bulletID + 1 or 1
     end
 end
 
