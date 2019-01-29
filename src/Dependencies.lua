@@ -8,6 +8,8 @@ require("src/StateMachine")
 require("src/States/BaseState")
 require("src/States/MenuState")
 require("src/States/PlayState")
+require("src/LevelEditor/LevelEditor")
+require("src/LevelEditor/LevelMaker")
 
 require("src/Bullet")
 require("src/Ship")
