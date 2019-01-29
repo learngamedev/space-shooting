@@ -1,6 +1,24 @@
 ---@class Enemy
 Enemy = Class {}
 
+ENEMIES = {
+    [10] = {
+        bulletID = nil,
+        hp = 50,
+        speed = 100,
+    },
+    [9] = {
+        bulletID = nil,
+        hp = 110,
+        speed = 70
+    },
+    [8] = {
+        bulletID = 5,
+        hp = 350,
+        speed = 50
+    }
+}
+
 function Enemy:init(x, y, shipID, bulletID, hp, speed, chasePlayer, randomMovement)
     self._ship = Ship(x, y, shipID, hp)
 
