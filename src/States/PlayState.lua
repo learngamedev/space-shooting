@@ -2,12 +2,12 @@
 PlayState = Class {__includes = BaseState}
 
 function PlayState:init()
-    self._player = Player(WINDOW_WIDTH / 2 - 23, 200)
+    self._player = Player(WINDOW_WIDTH / 2 - 23, WINDOW_HEIGHT - gFrames.ships[3].height)
     self._backgroundsY = {0, nil, -480, -960}
-    self._backgroundScrollSpeed = 200
+    self._backgroundScrollSpeed = 130
     self._crates = {} ---@type Crate[]
 
-    self._enemies = {Enemy(100, 100, 8, 3, 20)} ---@type Enemy[]
+    self._enemies = LevelMaker.getLevel("data/level1.json") ---@type Enemy[]
 end
 
 function PlayState:render()
