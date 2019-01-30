@@ -23,7 +23,7 @@ BULLETS = {
         speed = 200
     },
     [5] = {
-        cooldown = 15,
+        cooldown = 7,
         damage = 70,
         speed = 125
     },

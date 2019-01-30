@@ -5,7 +5,7 @@ ENEMIES = {
     [10] = {
         bulletID = nil,
         hp = 50,
-        speed = 100,
+        speed = 100
     },
     [9] = {
         bulletID = nil,
@@ -26,6 +26,8 @@ function Enemy:init(x, y, shipID, bulletID, hp, speed, chasePlayer, randomMoveme
     self._speed = speed
 
     self._chasingPlayer = chasePlayer or false
+    self._chasingTimer = math.random(10, 50)
+    self._idleTimer = 0
     self._randomMovement = randomMovement or false
     self._randomTimer = 50
 
@@ -44,16 +46,19 @@ function Enemy:render()
     end
 end
 
-function Enemy:update(dt)
+---@param player Player
+function Enemy:update(dt, player)
     if (self._randomMovement) then
         if (self._randomTimer == 0) then
             self:setVelocity(math.random(-1, 1), math.random(-1, 1))
             self._randomTimer = math.random(20, 50)
-        else self._randomTimer = math.max(0, self._randomTimer - 20 * dt) end
+        else
+            self._randomTimer = math.max(0, self._randomTimer - 20 * dt)
+        end
     end
 
-    self._ship._x = math.floor(self._ship._x + self._speed * self._dx * dt)
-    self._ship._y = math.floor(self._ship._y + self._speed * self._dy * dt)
+    self._ship._x = self._ship._x + self._speed * self._dx * dt
+    self._ship._y = self._ship._y + self._speed * self._dy * dt
 
     self._ship._x = math.max(0, self._ship._x)
     self._ship._x = math.min(self._ship._x, WINDOW_WIDTH - gFrames.ships[self._ship._shipID].width)
@@ -61,7 +66,23 @@ function Enemy:update(dt)
     self._ship._y = math.min(self._ship._y, WINDOW_HEIGHT - gFrames.ships[self._ship._shipID].height)
 
     if (self._bulletID) then
-        self:shoot(dt) 
+        self:shoot(dt)
+    end
+
+    if (self._chasingPlayer) then
+        if (self._chasingTimer > 0) then
+            self:chasePlayer(player)
+            self._chasingTimer = math.max(0, self._chasingTimer - 20 * dt)
+            if (self._chasingTimer == 0) then
+                self._idleTimer = math.random(20, 80)
+                self._dx, self._dy = 0, 0
+            end
+        elseif (self._idleTimer > 0) then
+            self._idleTimer = math.max(0, self._idleTimer - 20 * dt)
+            if (self._idleTimer == 0) then
+                self._chasingTimer = math.random(10, 50)
+            end
+        end
     end
 end
 
@@ -88,6 +109,7 @@ function Enemy:hit(target)
     return false
 end
 
+---@param player Player
 function Enemy:chasePlayer(player)
     local dx, dy = 0, 0
     if (self._ship._x > player._ship._x) then

@@ -8,6 +8,7 @@ function PlayState:init()
     self._crates = {} ---@type Crate[]
 
     self._enemies = LevelMaker.getLevel("data/level1.json") ---@type Enemy[]
+    -- self._enemies = {Enemy(100, 100, 10, ENEMIES[10].bulletID, ENEMIES[10].hp, ENEMIES[10].speed, true, false)}
 end
 
 function PlayState:render()
@@ -71,9 +72,6 @@ function PlayState:update(dt)
 
     for i = 1, #self._enemies do
         if (self._enemies[i]) then
-            if (self._enemies[i]._chasingPlayer) then
-                self._enemies[i]:chasePlayer(self._player)
-            end
 
             for k = 1, #self._enemies[i]._bullets do
                 local bullet = self._enemies[i]._bullets[k]
@@ -102,7 +100,7 @@ function PlayState:update(dt)
                 end
             end
 
-            self._enemies[i]:update(dt)
+            self._enemies[i]:update(dt, self._player)
 
             for j = 1, #self._player._bullets do
                 if (self._player._bullets[j]) then
