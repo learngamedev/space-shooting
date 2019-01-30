@@ -44,6 +44,7 @@ function love.load()
     gStateMachine = StateMachine{
         ["menu"] = function() return MenuState() end,
         ["play"] = function() return PlayState() end,
+        ["editor"] = function() return LevelEditor() end
     }
     gStateMachine:change("menu")
 

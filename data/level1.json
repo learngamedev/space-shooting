@@ -2,36 +2,50 @@
     {
         "y": 150,
         "x": 348,
-        "shipID": 8
+        "shipID": 8,
+        "chasingPlayer": false,
+        "randomMovement": true
     },
     {
         "y": 171,
         "x": 245,
-        "shipID": 9
+        "shipID": 9,
+        "chasingPlayer": false,
+        "randomMovement": true
     },
     {
         "y": 172,
         "x": 488,
-        "shipID": 9
+        "shipID": 9,
+        "chasingPlayer": false,
+        "randomMovement": true
     },
     {
         "y": 250,
         "x": 301,
-        "shipID": 10
+        "shipID": 10,
+        "chasingPlayer": true,
+        "randomMovement": false
     },
     {
         "y": 254,
         "x": 455,
-        "shipID": 10
+        "shipID": 10,
+        "chasingPlayer": true,
+        "randomMovement": false
     },
     {
         "y": 112,
         "x": 301,
-        "shipID": 10
+        "shipID": 10,
+        "chasingPlayer": true,
+        "randomMovement": false
     },
     {
         "y": 115,
         "x": 461,
-        "shipID": 10
+        "shipID": 10,
+        "chasingPlayer": true,
+        "randomMovement": false
     }
 ]

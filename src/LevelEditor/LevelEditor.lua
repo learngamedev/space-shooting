@@ -4,12 +4,21 @@ LevelEditor = Class {__includes = BaseState}
 local file = love.filesystem.newFile("level.json", "w")
 
 function LevelEditor:init()
-    self._currentShip = 1
+    self._currentShip = 7
     self._enemies = {} ---@type Enemy
     self._enemiesExportTable = {}
-    self._chasePlayer = true
+    self._chasingPlayer = true
+    self._randomMovement = false
 
-    print("Editor: S to save, Space to change the type of enemy, Enter to confirm the position of new enemy")
+    local instructions =
+        [=====[
+    S to save
+    Left or Right to change the type of enemy
+    Enter to confirm the position of new enemy
+    Num 1 to turn on/off chasing player (Default: on)
+    Num 2 to turn on/off random movement (Default: off)
+    ]=====]
+    print(instructions)
 end
 
 function LevelEditor:render()
@@ -22,29 +31,44 @@ function LevelEditor:render()
 end
 
 function LevelEditor:update(dt)
-    if (love.keyboard.wasPressed("space")) then
+    if (love.keyboard.wasPressed("right")) then
         if (self._currentShip < 10) then
             self._currentShip = self._currentShip + 1
         else
-            self._currentShip = 1
+            self._currentShip = 7
+        end
+    elseif (love.keyboard.wasPressed("left")) then
+        if (self._currentShip ~= 7) then
+            self._currentShip = self._currentShip - 1
+        else
+            self._currentShip = 10
         end
     end
+
     if (love.keyboard.wasPressed("return")) then
-        table.insert(
-            self._enemies,
-            Enemy(
-                love.mouse.getX(),
-                love.mouse.getY(),
-                self._currentShip
-            )
-        )
+        table.insert(self._enemies, Enemy(love.mouse.getX(), love.mouse.getY(), self._currentShip))
         table.insert(
             self._enemiesExportTable,
-            {x = love.mouse.getX(), y = love.mouse.getY(), shipID = self._currentShip}
+            {
+                x = love.mouse.getX(),
+                y = love.mouse.getY(),
+                shipID = self._currentShip,
+                chasingPlayer = self._chasingPlayer,
+                randomMovement = self._randomMovement
+            }
         )
     end
+
     if (love.keyboard.wasPressed("s")) then
         file:write(Json.encode(self._enemiesExportTable))
         print("Saved current level!")
+    end
+
+    if (love.keyboard.wasPressed("1")) then
+        self._chasingPlayer = not self._chasingPlayer
+        print("Chasing player: " .. tostring(self._chasingPlayer))
+    elseif (love.keyboard.wasPressed("2")) then
+        self._randomMovement = not self._randomMovement
+        print("Random movement: " .. tostring(self._randomMovement))
     end
 end

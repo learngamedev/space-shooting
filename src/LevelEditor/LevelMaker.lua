@@ -20,7 +20,9 @@ function LevelMaker.getLevel(fileName)
                 enemy.shipID,
                 ENEMIES[enemy.shipID].bulletID,
                 ENEMIES[enemy.shipID].hp,
-                ENEMIES[enemy.shipID].speed
+                ENEMIES[enemy.shipID].speed,
+                enemy.chasingPlayer,
+                enemy.randomMovement
             )
         )
         end
