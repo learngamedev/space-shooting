@@ -36,15 +36,22 @@ function PlayState:render()
 end
 
 function PlayState:update(dt)
+    self:updateBackground(dt)
+    self._player:update(dt)
+    self:updateCrates(dt)
+    self:updateEnemies(dt)
+end
+
+function PlayState:updateBackground(dt)
     for k, i in ipairs({1, 3, 4}) do
         self._backgroundsY[i] = math.floor(self._backgroundsY[i] + self._backgroundScrollSpeed * dt)
         if (self._backgroundsY[i] >= WINDOW_HEIGHT) then
             self._backgroundsY[i] = -959
         end
     end
+end
 
-    self._player:update(dt)
-
+function PlayState:updateCrates(dt)
     for i = 1, #self._crates do
         if (self._crates[i]) then
             -- Update crates
@@ -68,14 +75,16 @@ function PlayState:update(dt)
             end
         end
     end
+end
 
+function PlayState:updateEnemies(dt)
     for i = 1, #self._enemies do
         if (self._enemies[i]) then
+            -- Update bullets
             for k = 1, #self._enemies[i]._bullets do
                 local bullet = self._enemies[i]._bullets[k]
                 if (bullet) then
                     bullet:update(dt)
-
                     if
                         (checkCollision(
                             bullet._x - gFrames.bullets[bullet._bulletID].width,
@@ -98,10 +107,12 @@ function PlayState:update(dt)
                 end
             end
 
+            -- Update enemy's ship
             if (not self._enemies[i]._destroyed) then
                 self._enemies[i]:update(dt, self._player)
             end
 
+            -- Check for collision with player's bullets
             for j = 1, #self._player._bullets do
                 if (self._player._bullets[j]) then
                     if (self._enemies[i]:hit(self._player._bullets[j])) then
