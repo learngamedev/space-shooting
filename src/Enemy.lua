@@ -34,10 +34,14 @@ function Enemy:init(x, y, shipID, bulletID, hp, speed, chasePlayer, randomMoveme
     self._bulletID = bulletID
     self._bullets = {} ---@type Bullet[]
     self._cooldownTimer = 0
+
+    self._destroyed = false
 end
 
 function Enemy:render()
-    self._ship:render()
+    if (not self._destroyed) then
+        self._ship:render()
+    end
 
     for i = 1, #self._bullets do
         if (self._bullets[i]) then

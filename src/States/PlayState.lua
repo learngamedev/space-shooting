@@ -6,7 +6,6 @@ function PlayState:init()
     self._backgroundsY = {0, nil, -480, -960}
     self._backgroundScrollSpeed = 130
     self._crates = {} ---@type Crate[]
-
     self._enemies = LevelMaker.getLevel("data/level1.json") ---@type Enemy[]
     -- self._enemies = {Enemy(100, 100, 10, ENEMIES[10].bulletID, ENEMIES[10].hp, ENEMIES[10].speed, true, false)}
 end
@@ -72,7 +71,6 @@ function PlayState:update(dt)
 
     for i = 1, #self._enemies do
         if (self._enemies[i]) then
-
             for k = 1, #self._enemies[i]._bullets do
                 local bullet = self._enemies[i]._bullets[k]
                 if (bullet) then
@@ -100,7 +98,9 @@ function PlayState:update(dt)
                 end
             end
 
-            self._enemies[i]:update(dt, self._player)
+            if (not self._enemies[i]._destroyed) then
+                self._enemies[i]:update(dt, self._player)
+            end
 
             for j = 1, #self._player._bullets do
                 if (self._player._bullets[j]) then
@@ -109,11 +109,14 @@ function PlayState:update(dt)
                         self._enemies[i]._ship._health =
                             self._enemies[i]._ship._health - BULLETS[self._player._bulletID].damage
                         if (self._enemies[i]._ship._health <= 0) then
-                            table.remove(self._enemies, i)
-                            break
+                            self._enemies[i]._destroyed = true
                         end
                     end
                 end
+            end
+
+            if (self._enemies[i]._destroyed and #self._enemies[i]._bullets == 0) then
+                table.remove(self._enemies, i)
             end
         end
     end
