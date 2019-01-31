@@ -96,7 +96,7 @@ function PlayState:updateEnemies(dt)
                             self._player._width,
                             self._player._height
                         ))
-                    then
+                     then
                         self._player:changeHealth(-BULLETS[bullet._bulletID].damage)
                         table.remove(self._enemies[i]._bullets, k)
                     end
@@ -121,6 +121,7 @@ function PlayState:updateEnemies(dt)
                             self._enemies[i]._ship._health - BULLETS[self._player._bulletID].damage
                         if (self._enemies[i]._ship._health <= 0) then
                             self._enemies[i]._destroyed = true
+                            self._player._score = self._player._score + ENEMIES[self._enemies[i]._ship._shipID].score
                         end
                     end
                 end

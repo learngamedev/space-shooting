@@ -5,17 +5,20 @@ ENEMIES = {
     [10] = {
         bulletID = nil,
         hp = 50,
-        speed = 100
+        speed = 100,
+        score = 20
     },
     [9] = {
         bulletID = nil,
         hp = 110,
-        speed = 70
+        speed = 70,
+        score = 50,
     },
     [8] = {
         bulletID = 5,
         hp = 350,
-        speed = 50
+        speed = 50,
+        score = 100
     }
 }
 

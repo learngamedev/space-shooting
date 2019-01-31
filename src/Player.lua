@@ -26,6 +26,8 @@ function Player:init(x, y)
         width = gFrames.huds[6].width,
         height = gFrames.huds[6].height
     }
+
+    self._score = 0
 end
 
 function Player:render()
@@ -63,6 +65,8 @@ function Player:render()
             )
         end
     end
+
+    love.graphics.print("Score: "..self._score, WINDOW_WIDTH / 2 - 50, 0)
 end
 
 function Player:update(dt)
