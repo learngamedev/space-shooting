@@ -8,6 +8,7 @@ require("src/StateMachine")
 require("src/States/BaseState")
 require("src/States/MenuState")
 require("src/States/PlayState")
+require("src/States/GameOverState")
 require("src/LevelEditor/LevelEditor")
 require("src/LevelEditor/LevelMaker")
 

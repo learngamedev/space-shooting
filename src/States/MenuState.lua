@@ -27,7 +27,6 @@ function MenuState:render()
 end
 
 function MenuState:update(dt)
-    --TODO: commit this with PlayState
     if (love.keyboard.wasPressed("return")) then
         gStateMachine:change("play")
     end
@@ -38,5 +37,4 @@ end
 
 function MenuState:exit()
     gSounds.theme:pause()
-    gSounds.theme = nil
 end
