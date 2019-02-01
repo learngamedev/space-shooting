@@ -5,10 +5,10 @@ gCrates = {}
 
 local Y_VELOCITY = 20
 
-function Crate:init(x, y)
+function Crate:init(x, y, item)
     self._x, self._y = x, y
     self._popped = false
-    self._itemID = nil
+    self._itemID = item
 end
 
 function Crate:render()
@@ -57,9 +57,5 @@ function Crate:collides(target, bulletID)
 end
 
 function Crate:pop()
-    local rand = math.random(1, 2)
-    if (rand == 1) then
-        self._itemID = 3
-    else self._itemID = 5 end
     self._popped = true
 end

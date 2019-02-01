@@ -119,9 +119,19 @@ function PlayState:updateEnemies(dt)
                         table.remove(self._player._bullets, j)
                         self._enemies[i]._ship._health =
                             self._enemies[i]._ship._health - BULLETS[self._player._bulletID].damage
-                        if (self._enemies[i]._ship._health <= 0) then
+                        if (self._enemies[i]._ship._health <= 0 and not self._enemies[i]._destroyed) then
                             self._enemies[i]._destroyed = true
                             self._player._score = self._player._score + ENEMIES[self._enemies[i]._ship._shipID].score
+                            if (self._enemies[i]._item ~= 0)then
+                                table.insert(
+                                    self._crates,
+                                    Crate(
+                                        self._enemies[i]._ship._x + gFrames.ships[self._enemies[i]._ship._shipID].width / 2,
+                                        self._enemies[i]._ship._y + gFrames.ships[self._enemies[i]._ship._shipID].height,
+                                        self._enemies[i]._item
+                                    )
+                                )
+                            end
                         end
                     end
                 end

@@ -22,7 +22,7 @@ ENEMIES = {
     }
 }
 
-function Enemy:init(x, y, shipID, bulletID, hp, speed, chasePlayer, randomMovement)
+function Enemy:init(x, y, shipID, bulletID, hp, speed, chasePlayer, randomMovement, item)
     self._ship = Ship(x, y, shipID, hp)
 
     self._dx, self._dy = 0, 0
@@ -39,6 +39,8 @@ function Enemy:init(x, y, shipID, bulletID, hp, speed, chasePlayer, randomMoveme
     self._cooldownTimer = 0
 
     self._destroyed = false
+
+    self._item = item or 0
 end
 
 function Enemy:render()

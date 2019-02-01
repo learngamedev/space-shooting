@@ -13,18 +13,19 @@ function LevelMaker.getLevel(fileName)
         enemy = decoded[i]
         if (enemy) then
             table.insert(
-            enemies,
-            Enemy(
-                enemy.x,
-                enemy.y,
-                enemy.shipID,
-                ENEMIES[enemy.shipID].bulletID,
-                ENEMIES[enemy.shipID].hp,
-                ENEMIES[enemy.shipID].speed,
-                enemy.chasingPlayer,
-                enemy.randomMovement
+                enemies,
+                Enemy(
+                    enemy.x,
+                    enemy.y,
+                    enemy.shipID,
+                    ENEMIES[enemy.shipID].bulletID,
+                    ENEMIES[enemy.shipID].hp,
+                    ENEMIES[enemy.shipID].speed,
+                    enemy.chasingPlayer,
+                    enemy.randomMovement,
+                    enemy.item
+                )
             )
-        )
         end
     end
     return enemies

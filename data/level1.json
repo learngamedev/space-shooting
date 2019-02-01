@@ -4,7 +4,8 @@
         "x": 348,
         "shipID": 8,
         "chasingPlayer": false,
-        "randomMovement": true
+        "randomMovement": true,
+        "item": 3
     },
     {
         "y": 171,

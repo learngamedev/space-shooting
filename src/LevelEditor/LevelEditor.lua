@@ -6,7 +6,7 @@ local file = love.filesystem.newFile("level.json", "w")
 function LevelEditor:init()
     self._currentShip = 7
     self._enemies = {} ---@type Enemy
-    self._enemiesExportTable = {}
+    self._levelDatas = {}
     self._chasingPlayer = true
     self._randomMovement = false
 
@@ -48,7 +48,7 @@ function LevelEditor:update(dt)
     if (love.keyboard.wasPressed("return")) then
         table.insert(self._enemies, Enemy(love.mouse.getX(), love.mouse.getY(), self._currentShip))
         table.insert(
-            self._enemiesExportTable,
+            self._levelDatas,
             {
                 x = love.mouse.getX(),
                 y = love.mouse.getY(),
@@ -60,7 +60,7 @@ function LevelEditor:update(dt)
     end
 
     if (love.keyboard.wasPressed("s")) then
-        file:write(Json.encode(self._enemiesExportTable))
+        file:write(Json.encode(self._levelDatas))
         print("Saved current level!")
     end
 
