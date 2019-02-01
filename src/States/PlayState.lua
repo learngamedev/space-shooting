@@ -4,7 +4,7 @@ PlayState = Class {__includes = BaseState}
 function PlayState:init()
     self._player = Player(WINDOW_WIDTH / 2 - 23, WINDOW_HEIGHT - gFrames.ships[3].height)
     self._backgroundsY = {0, nil, -480, -960}
-    self._backgroundScrollSpeed = 130
+    self._backgroundScrollSpeed = 150
     self._crates = {} ---@type Crate[]
     self._enemies = LevelMaker.getLevel("data/level1.json") ---@type Enemy[]
     -- self._enemies = {Enemy(100, 100, 10, ENEMIES[10].bulletID, ENEMIES[10].hp, ENEMIES[10].speed, true, false)}
@@ -44,10 +44,11 @@ end
 
 function PlayState:updateBackground(dt)
     for k, i in ipairs({1, 3, 4}) do
-        self._backgroundsY[i] = math.floor(self._backgroundsY[i] + self._backgroundScrollSpeed * dt)
         if (self._backgroundsY[i] >= WINDOW_HEIGHT) then
             self._backgroundsY[i] = -959
+            break
         end
+        self._backgroundsY[i] = self._backgroundsY[i] + self._backgroundScrollSpeed * dt
     end
 end
 
@@ -99,6 +100,14 @@ function PlayState:updateEnemies(dt)
                      then
                         self._player:changeHealth(-BULLETS[bullet._bulletID].damage)
                         table.remove(self._enemies[i]._bullets, k)
+
+                        if (self._player._ship._health <= 0) then
+                            self._player._live.remaining = self._player._live.remaining - 1
+                            self._player:changeHealth(999)
+                        end
+                        if (self._player._live.remaining < 1) then
+                            gStateMachine:change("gameover", {score = self._player._score})
+                        end
                     end
 
                     if (bullet._y > WINDOW_HEIGHT) then
