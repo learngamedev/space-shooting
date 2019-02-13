@@ -28,10 +28,16 @@ function Player:init(x, y)
     }
 
     self._score = 0
+
+    self._opacity = 1
+    self._opacityTimer = 0
+    self._collided = false
 end
 
 function Player:render()
+    love.graphics.setColor(255, 255, 255, self._opacity)
     self._ship:render()
+    love.graphics.setColor(255, 255, 255, 255)
 
     for i = 1, #self._bullets do
         if (self._bullets[i]) then
@@ -85,6 +91,13 @@ function Player:update(dt)
     if (love.keyboard.wasPressed("f")) then
         self._bulletID = self._bulletID < 7 and self._bulletID + 1 or 1
     end
+    
+    if (self._opacityTimer > 0) then
+        self._opacityTimer = math.max(0, self._opacityTimer - 50 * dt)
+        if (self._opacityTimer <= 0) then
+            self._opacity = 1
+        end
+    end
 end
 
 function Player:move(dt)
@@ -130,6 +143,17 @@ function Player:changeHealth(number)
         gFrames.huds[3].height,
         gTextures.huds:getDimensions()
     )
+    if (self._ship._health <= 0) then
+        gSounds["death"]:play()
+
+        self._live.remaining = self._live.remaining - 1
+        self:changeHealth(999)
+
+        self._ship._x, self._ship._y = WINDOW_WIDTH / 2 - 23, WINDOW_HEIGHT - gFrames.ships[3].height
+
+        self._opacityTimer = 100
+        self._opacity = 0.5
+    end
 end
 
 ---@param crate Crate
@@ -150,4 +174,22 @@ function Player:getPowerup(crate)
     if (crate._itemID == 3) then
         self:changeHealth(20)
     end
+end
+
+function Player:hit(target, targetWidth, targetHeight)
+    if
+        (checkCollision(
+            self._ship._x,
+            self._ship._y,
+            gFrames.ships[self._ship._shipID].width,
+            gFrames.ships[self._ship._shipID].height,
+            target._x,
+            target._y,
+            targetWidth,
+            targetHeight
+        ))
+    then
+        return true
+    end
+    return false
 end

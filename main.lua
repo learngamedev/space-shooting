@@ -38,7 +38,8 @@ function love.load()
     gSounds = {
         ["theme"] = love.audio.newSource("assets/sounds/theme.ogg", "stream"),
         ["shoot"] = love.audio.newSource("assets/sounds/shoot.wav", "static"),
-        ["power-up"] = love.audio.newSource("assets/sounds/power-up.wav", "static")
+        ["power-up"] = love.audio.newSource("assets/sounds/power-up.wav", "static"),
+        ["death"] = love.audio.newSource("assets/sounds/death.wav", "static")
     }
 
     gStateMachine = StateMachine{

@@ -28,16 +28,16 @@ function PlayState:render()
         end
     end
 
-    self._player:render()
-
     for i = 1, #self._enemies do
         self._enemies[i]:render()
     end
+
+    self._player:render()
 end
 
 function PlayState:update(dt)
     self:updateBackground(dt)
-    self._player:update(dt)
+    self:updatePlayer(dt)
     self:updateCrates(dt)
     self:updateEnemies(dt)
 end
@@ -86,27 +86,22 @@ function PlayState:updateEnemies(dt)
                 local bullet = self._enemies[i]._bullets[k]
                 if (bullet) then
                     bullet:update(dt)
-                    if
-                        (checkCollision(
-                            bullet._x - gFrames.bullets[bullet._bulletID].width,
-                            bullet._y - gFrames.bullets[bullet._bulletID].height,
-                            gFrames.bullets[bullet._bulletID].width,
-                            gFrames.bullets[bullet._bulletID].height,
-                            self._player._ship._x,
-                            self._player._ship._y,
-                            self._player._width,
-                            self._player._height
-                        ))
-                     then
-                        self._player:changeHealth(-BULLETS[bullet._bulletID].damage)
-                        table.remove(self._enemies[i]._bullets, k)
-
-                        if (self._player._ship._health <= 0) then
-                            self._player._live.remaining = self._player._live.remaining - 1
-                            self._player:changeHealth(999)
-                        end
-                        if (self._player._live.remaining < 1) then
-                            gStateMachine:change("gameover", {score = self._player._score})
+                    if (self._player._opacityTimer == 0) then
+                        if
+                            (checkCollision(
+                                bullet._x - gFrames.bullets[bullet._bulletID].width,
+                                bullet._y - gFrames.bullets[bullet._bulletID].height,
+                                gFrames.bullets[bullet._bulletID].width,
+                                gFrames.bullets[bullet._bulletID].height,
+                                self._player._ship._x,
+                                self._player._ship._y,
+                                self._player._width,
+                                self._player._height
+                            ))
+                         then
+                            self._player:changeHealth(-BULLETS[bullet._bulletID].damage)
+                            table.remove(self._enemies[i]._bullets, k)
+                            break
                         end
                     end
 
@@ -131,11 +126,12 @@ function PlayState:updateEnemies(dt)
                         if (self._enemies[i]._ship._health <= 0 and not self._enemies[i]._destroyed) then
                             self._enemies[i]._destroyed = true
                             self._player._score = self._player._score + ENEMIES[self._enemies[i]._ship._shipID].score
-                            if (self._enemies[i]._item ~= 0)then
+                            if (self._enemies[i]._item ~= 0) then
                                 table.insert(
                                     self._crates,
                                     Crate(
-                                        self._enemies[i]._ship._x + gFrames.ships[self._enemies[i]._ship._shipID].width / 2,
+                                        self._enemies[i]._ship._x +
+                                            gFrames.ships[self._enemies[i]._ship._shipID].width / 2,
                                         self._enemies[i]._ship._y + gFrames.ships[self._enemies[i]._ship._shipID].height,
                                         self._enemies[i]._item
                                     )
@@ -150,5 +146,33 @@ function PlayState:updateEnemies(dt)
                 table.remove(self._enemies, i)
             end
         end
+    end
+end
+
+function PlayState:updatePlayer(dt)
+    if (self._player._opacityTimer == 0) then
+        for i = 1, #self._enemies do
+            if (self._enemies[i]) then
+                -- Check for player's collision with enemies
+                if
+                    (self._player:hit(
+                        self._enemies[i]._ship,
+                        gFrames.ships[self._enemies[i]._ship._shipID].width,
+                        gFrames.ships[self._enemies[i]._ship._shipID].height
+                    ))
+                 then
+                    self._player:changeHealth(-20)
+                    self._player._opacityTimer = 100
+                    self._player._opacity = 0.5
+                    break
+                end
+            end
+        end
+    end
+
+    self._player:update(dt)
+
+    if (self._player._live.remaining < 1) then
+        gStateMachine:change("gameover", {score = self._player._score})
     end
 end
