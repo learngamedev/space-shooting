@@ -1,4 +1,4 @@
-require("src/dependencies")
+require("src/Dependencies")
 
 function love.load()
     love.mouse.setVisible(false)
