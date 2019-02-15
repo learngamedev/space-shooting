@@ -1,52 +1,60 @@
 [
     {
-        "y": 150,
-        "x": 348,
+        "x": 357,
+        "randomMovement": true,
+        "y": 0,
         "shipID": 8,
         "chasingPlayer": false,
-        "randomMovement": true,
         "item": 3
     },
     {
+        "x": 220,
+        "randomMovement": false,
+        "y": 89,
+        "shipID": 9,
+        "chasingPlayer": true,
+        "item": 5
+    },
+    {
+        "x": 528,
+        "randomMovement": true,
+        "y": 92,
+        "shipID": 9,
+        "chasingPlayer": false
+    },
+    {
+        "x": 310,
+        "randomMovement": false,
+        "y": 169,
+        "shipID": 10,
+        "chasingPlayer": true
+    },
+    {
+        "x": 397,
+        "randomMovement": false,
         "y": 171,
-        "x": 245,
-        "shipID": 9,
-        "chasingPlayer": false,
-        "randomMovement": true
-    },
-    {
-        "y": 172,
-        "x": 488,
-        "shipID": 9,
-        "chasingPlayer": false,
-        "randomMovement": true
-    },
-    {
-        "y": 250,
-        "x": 301,
         "shipID": 10,
-        "chasingPlayer": true,
-        "randomMovement": false
+        "chasingPlayer": true
     },
     {
-        "y": 254,
-        "x": 455,
+        "x": 487,
+        "randomMovement": true,
+        "y": 171,
         "shipID": 10,
-        "chasingPlayer": true,
-        "randomMovement": false
+        "chasingPlayer": false
     },
     {
-        "y": 112,
-        "x": 301,
+        "x": 357,
+        "randomMovement": true,
+        "y": 211,
         "shipID": 10,
-        "chasingPlayer": true,
-        "randomMovement": false
+        "chasingPlayer": false
     },
     {
-        "y": 115,
-        "x": 461,
+        "x": 441,
+        "randomMovement": true,
+        "y": 213,
         "shipID": 10,
-        "chasingPlayer": true,
-        "randomMovement": false
+        "chasingPlayer": false
     }
 ]
