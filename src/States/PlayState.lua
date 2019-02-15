@@ -159,7 +159,7 @@ function PlayState:updatePlayer(dt)
                         self._enemies[i]._ship,
                         gFrames.ships[self._enemies[i]._ship._shipID].width,
                         gFrames.ships[self._enemies[i]._ship._shipID].height
-                    ))
+                    )) and (not self._enemies[i]._destroyed)
                  then
                     self._player:changeHealth(-20)
                     self._player._opacityTimer = 100
