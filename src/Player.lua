@@ -12,17 +12,17 @@ function Player:init(x, y)
 
     self._cooldownTimer = 0
 
-    self._health = {
-        barX = WINDOW_WIDTH - gFrames.huds[4].width - 5,
-        barY = 5,
+    self._healthBar = {
+        x = WINDOW_WIDTH - gFrames.huds[4].width - 5,
+        y = 5,
         width = gFrames.huds[4].width,
         height = gFrames.huds[4].height
     }
 
     self._live = {
         remaining = 3,
-        firstX = self._health.barX + (self._health.width / 2 - 85 / 2),
-        firstY = self._health.barY + self._health.height,
+        firstX = self._healthBar.x + (self._healthBar.width / 2 - 85 / 2),
+        firstY = self._healthBar.y + self._healthBar.height,
         width = gFrames.huds[6].width,
         height = gFrames.huds[6].height
     }
@@ -46,12 +46,12 @@ function Player:render()
     end
 
     -- Render healh bar and lives
-    love.graphics.draw(gTextures.huds, gFrameQuads.huds["health-bar"], self._health.barX, self._health.barY)
+    love.graphics.draw(gTextures.huds, gFrameQuads.huds["health-bar"], self._healthBar.x, self._healthBar.y)
     love.graphics.draw(
         gTextures.huds,
         gFrameQuads.huds["health-bar-fill"],
-        self._health.barX + 9,
-        self._health.barY + 7
+        self._healthBar.x + 9,
+        self._healthBar.y + 7
     )
 
     for i = 1, 3 do
@@ -127,7 +127,6 @@ function Player:shoot(dt)
                     self._bulletID
                 )
             )
-            gSounds.shoot:play()
             self._cooldownTimer = BULLETS[self._bulletID].cooldown
         end
     else self._cooldownTimer = math.max(0, self._cooldownTimer - 30 * dt) end
